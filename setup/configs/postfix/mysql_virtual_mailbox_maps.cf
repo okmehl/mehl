@@ -1,0 +1,6 @@
+user = {{ db_user }}
+password = {{ db_pw }}
+hosts = db
+dbname = {{ db_name }}
+query = SELECT email FROM user WHERE email='%s' AND enabled = true
+

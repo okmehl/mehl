@@ -1,0 +1,134 @@
+{% if flavor == "stack" %}
+{% call macros.panel("danger", "Docker stack / swarm is experimental") %}
+Setup is capable of generating a somewhat decent docker-compose.yml,
+for the docker stack flavor. However its usage is for advanced users only and is experimental.
+Expect many challenges such as shared mail storage and fail-over scenarios! Some user experiences
+have been <a href="https://github.com/okmehl/mehl/blob/master/docs/swarm/master/README.md">shared on GitHub.</a>
+For this reason also think very hard about using a replica count higher than 1. This cannot be used with the default config.
+Manual post-configuration is required for using a replica count higher than 1.
+{% endcall %}
+{% endif %}
+
+{% call macros.panel("info", "Step 2 - Base configuration") %}
+<p>Before starting, some variables must be set.</p>
+
+<div class="form-group">
+  <label>Choose your gateway to your mehl stack:</label>
+  <div class="radio">
+    <label>
+      <input type="radio" name="traefik_enabled" value="true" checked>
+      Traefik as your gateway for TLS
+    </label>
+  </div>
+  <div class="radio">
+    <label>
+      <input type="radio" name="traefik_enabled" value="">
+      Traefik as your gateway but use other methods for TLS
+    </label>
+  </div>
+</div>
+
+<div class="form-group" id="traefik_enabled">
+  <div class="form-group">
+    <label>Traefik host name incl. mail domain</label>
+    <input class="form-control" type="text" name="traefik_hostname" value="" required>
+  </div>
+  <div class="form-group">
+    <label>Traefik network name</label>
+    <input class="form-control" type="text" name="traefik_network" value="traefik_public" required>
+  </div>
+  <div class="form-group">
+    <label>Traefik entrypoint name</label>
+    <input class="form-control" type="text" name="traefik_entrypoint" value="websecure" required>
+  </div>
+  <div class="form-group">
+    <label>Traefik SSL resolver name</label>
+    <input class="form-control" type="text" name="traefik_ssl_resolver" value="leresolver" required>
+  </div>
+  <div class="form-group">
+    <label>Traefik middlewares</label>
+    <input class="form-control" type="text" name="traefik_middlewares" value="">
+  </div>
+  <div class="form-group">
+    <label>Traefik folder, which contains the acme.json</label>
+    <input class="form-control" type="text" name="traefik_cert_folder" value="">
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label>Mehl storage path: </label>
+<!--   Validates path -->
+  <input class="form-control" type="text" name="root" value="/mehl" required pattern="^/[-_A-Za-z0-9]+(/[-_A-Za-z0-9]*)*">
+</div>
+
+<p>In the following sections we need to set the postmaster address. This is a combination of the <i>postmaster</i> local part and the <i>main mail domain</i>.
+The <i>main mail domain</i> is also used as </i>"server display name"</i>. This is the way the SMTP server identifies itself when connecting to others.
+The Postmaster will get an e-mail address &lt;postmaster&gt;@&lt;main_domain&gt;. This address will receive the DMARC "rua" and "ruf" reports.
+Or in plain english: if receivers start to classify your mail as spam, this postmaster will be informed.</p>
+
+<div class="form-group">
+  <label>
+    Main mail domain and server display name.
+  </label>
+<!--   Validates domain name -->
+  <input class="form-control" type="text" name="domain" placeholder="e.g. mehl.io"
+  		required pattern="^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$">
+</div>
+
+<div class="form-group">
+  <label>Postmaster local part</label>
+  <input class="form-control" type="text" name="postmaster" value="admin" required>
+</div>
+
+<div class="form-group">
+  <label>Choose how you wish to handle security <a href="https://mehl.io/{{ version }}/compose/setup.html#tls-certificates">TLS certificates</a></label>
+  <br/>
+  <select class="btn btn-primary dropdown-toggle" name="tls_flavor">
+  	{% for tlsflavor in ["letsencrypt", "cert", "notls", "mail", "mail-letsencrypt"] %}
+  	<option value="{{ tlsflavor }}" >{{ tlsflavor }}</option>
+  	{% endfor %}
+  </select>
+</div>
+
+<div class="form-group">
+  <label>Authentication rate limit (per source IP address)</label>
+  <!--   Validates number input only -->
+  <p><input class="form-control" style="width: 7%; display: inline;" type="number" name="auth_ratelimit_pm"
+  		value="10" required > / minute
+  </p>
+</div>
+
+<div class="form-check form-check-inline">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" name="disable_statistics" value="True">
+    Opt-out of statistics
+  </label>
+</div>
+
+<div class="form-group">
+  <label>Website name</label>
+  <input class="form-control" type="text" name="site_name" value="Mehl" required>
+</div>
+
+<div class="form-group">
+  <label>Linked Website URL</label>
+<!--   Validates url with or without https:// -->
+  <input class="form-control" type="url" name="website" value="https://mehl.io" required
+		pattern="^(https?://)?([a-zA-Z0-9]([a-zA-ZäöüÄÖÜ0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$">
+</div>
+
+<p>The admin interface is the main Mehl-specific bit, it provides tools to
+manage your email domains, users, etc.</p>
+
+<div class="form-group">
+    <input type="checkbox" name="admin_enabled" value="true" id="admin">
+  	<label>Enable the admin UI (and path to the admin UI)</label>
+    <input class="form-control" type="text" name="admin_path" id="admin_path" style="display: none">
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='render.js') }}"></script>
+
+{% endcall %}

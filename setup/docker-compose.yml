@@ -1,0 +1,17 @@
+# This file is used to test the mehl/setup utility
+# Deployment files can be found on github.com/mehl/infra
+
+version: '3.6'
+
+services:
+  redis:
+    image: redis:alpine
+
+  setup:
+    image: ${DOCKER_ORG:-okmehl}/${DOCKER_PREFIX:-}setup:${MEHL_VERSION:-edge}
+    build: .
+    env_file: .env
+    depends_on:
+      - redis
+    ports:
+      - 8001:80

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% trans %}Create alias{% endtrans %}
+{% endblock %}
+
+{% block content %}
+{% call macros.box(title=domain) %}
+<form class="form" method="post" role="form">
+  {{ form.hidden_tag() }}
+  {{ macros.form_field(form.localpart, append='<div class="input-group-append"><span class="input-group-text">@'+domain.name+'</span></div>') }}
+  {{ macros.form_field(form.wildcard) }}
+  {{ macros.form_field(form.destination, class_='mailselect') }}
+  {{ macros.form_field(form.comment) }}
+  {{ macros.form_field(form.submit) }}
+</form>
+{% endcall %}
+{% endblock %}

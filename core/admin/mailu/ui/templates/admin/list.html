@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% trans %}Global administrators{% endtrans %}
+{% endblock %}
+
+{% block content %}
+{% call macros.box(action_url=url_for('.admin_create'), action_text="Add administrator", padding="0") %}
+{% call macros.table() %}
+<tr>
+  <th>{% trans %}Email{% endtrans %}</th>
+  <th style="width: 10%">{% trans %}Actions{% endtrans %}</th>
+</tr>
+{% for admin in admins %}
+<tr>
+  <td>{{ admin }}</td>
+  <td>
+    <a href="{{ url_for('.admin_delete', admin=admin.email) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-trash"></i>
+      {% trans %}Delete{% endtrans %}
+    </a>
+  </td>
+</tr>
+{% endfor %}
+{% endcall %}
+{% endcall %}
+{% endblock %}

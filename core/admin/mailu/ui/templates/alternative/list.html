@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% trans %}Alternative domain list{% endtrans %}
+{% endblock %}
+
+{% block subtitle %}
+{{ domain.name }}
+{% endblock %}
+
+{% block content %}
+{% call macros.box(padding="0", action_url=url_for('.alternative_create', domain_name=domain.name), action_text="Add alternative") %}
+{% call macros.table() %}
+<tr>
+  <th>{% trans %}Name{% endtrans %}</th>
+  <th>{% trans %}Created{% endtrans %}</th>
+  <th width="10%">{% trans %}Actions{% endtrans %}</th>
+</tr>
+{% for alternative in domain.alternatives %}
+<tr>
+  <td>{{ alternative }}</td>
+  <td>{{ alternative.created_at }}</td>
+  <td>
+    <a href="{{ url_for('.alternative_delete', alternative=alternative.name) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-trash"></i>
+      {% trans %}Delete{% endtrans %}
+    </a>
+  </td>
+</tr>
+{% endfor %}
+{% endcall %}
+{% endcall %}
+{% endblock %}

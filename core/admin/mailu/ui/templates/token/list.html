@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% trans %}Authentication tokens{% endtrans %}
+{% endblock %}
+
+{% block content %}
+{% call macros.box(padding="0", action_url=url_for('.token_create', user_email=user.email), action_text="New token") %}
+{% call macros.table() %}
+<tr>
+  <th>{% trans %}Comment{% endtrans %}</th>
+  <th>{% trans %}Authorized IP{% endtrans %}</th>
+  <th>{% trans %}Created{% endtrans %}</th>
+  <th width="10%">{% trans %}Actions{% endtrans %}</th>
+</tr>
+{% for token in user.tokens %}
+<tr>
+  <td>{{ token.comment }}</td>
+  <td>{{ token.ip or "any" }}</td>
+  <td>{{ token.created_at }}</td>
+  <td>
+    <a href="{{ url_for('.token_delete', token_id=token.id) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-trash"></i>
+      {% trans %}Delete{% endtrans %}
+    </a>
+  </td>
+</tr>
+{% endfor %}
+{% endcall %}
+{% endcall %}
+{% endblock %}

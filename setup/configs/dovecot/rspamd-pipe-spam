@@ -1,0 +1,6 @@
+#!/bin/bash
+
+tee >(rspamc -h antispam:11334 -P mehl learn_spam /dev/stdin) \
+    >(rspamc -h antispam:11334 -P mehl -f 13 fuzzy_del /dev/stdin) \
+    | rspamc -h antispam:11334 -P mehl -f 11 fuzzy_add /dev/stdin
+

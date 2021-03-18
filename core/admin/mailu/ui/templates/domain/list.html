@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% trans %}Domain list{% endtrans %}
+{% endblock %}
+
+{% block content %}
+{% call macros.box(padding="0", action_url=url_for('.domain_create') if current_user.global_admin else '', action_text="New domain") %}
+{% call macros.table() %}
+<tr>
+  <th>{% trans %}Domain name{% endtrans %}</th>
+  <th>{% trans %}Mailbox count{% endtrans %}</th>
+  <th>{% trans %}Alias count{% endtrans %}</th>
+  <th>{% trans %}Comment{% endtrans %}</th>
+  <th>{% trans %}Created{% endtrans %}</th>
+  <th>{% trans %}Last edit{% endtrans %}</th>
+  <th width="20%">{% trans %}Manage{% endtrans %}</th>
+  <th width="15%">{% trans %}Actions{% endtrans %}</th>
+</tr>
+{% for domain in current_user.get_managed_domains() %}
+<tr>
+  <td>{{ domain.name }}</td>
+  <td>{{ domain.users | count }} / {{ '∞' if domain.max_users == -1 else domain.max_users }}</td>
+  <td>{{ domain.aliases | count }} / {{ '∞' if domain.max_aliases == -1 else domain.max_aliases }}</td>
+  <td>{{ domain.comment or '' }}</td>
+  <td>{{ domain.created_at }}</td>
+  <td>{{ domain.updated_at or '' }}</td>
+  <td>
+    <a href="{{ url_for('.user_list', domain_name=domain.name) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-users"></i>
+      {% trans %}Users{% endtrans %}
+    </a>
+    <a href="{{ url_for('.alias_list', domain_name=domain.name) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-at"></i>
+      {% trans %}Aliases{% endtrans %}
+    </a>
+    <a href="{{ url_for('.manager_list', domain_name=domain.name) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-user"></i>
+      {% trans %}Managers{% endtrans %}
+    </a>
+    {% if current_user.global_admin %}
+    <a href="{{ url_for('.alternative_list', domain_name=domain.name) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-asterisk"></i>
+      {% trans %}Alternatives{% endtrans %}
+    </a>
+    {% endif %}
+  </td>
+  <td>
+    <a href="{{ url_for('.domain_details', domain_name=domain.name) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-list"></i>
+      {% trans %}Details{% endtrans %}
+    </a>
+    {% if current_user.global_admin %}
+    <a href="{{ url_for('.domain_edit', domain_name=domain.name) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-pencil-alt"></i>
+      {% trans %}Edit{% endtrans %}
+    </a>
+    <a href="{{ url_for('.domain_delete', domain_name=domain.name) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-trash"></i>
+      {% trans %}Delete{% endtrans %}
+    </a>
+    {% endif %}
+  </td>
+</tr>
+{% endfor %}
+{% endcall %}
+{% endcall %}
+{% endblock %}

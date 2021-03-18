@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  admin:
+    image: okmehl/admin:edge
+    ports:
+      - 8000:80
+      - 5678:5678
+    environment:
+      FLASK_APP: "mailu"
+      FLASK_ENV: "development"
+      FLASK_DEBUG: "0"
+      IMAP_SERVICE: "imap"
+      LMTP_SERVICE: "imap:2525"
+      POP3_SERVICE: "imap"
+      SMTP_SERVICE: "smtp"
+      AUTHSMTP_SERVICE: "smtp"
+      ADMIN_SERVICE: "admin"
+      ANTISPAM_MILTER_SERVICE: "antispam:11332"
+      ANTISPAM_WEBUI_SERVICE: "antispam:11334"
+      ANTIVIRUS_SERVICE: "antivirus:3310"
+      WEBMAIL_SERVICE: "webmail"
+      WEBDAV_SERVICE: "webdav:5232"
+      REDIS_SERVICE: "redis"
+      INITIAL_ADMIN_ACCOUNT: "admin"
+      INITIAL_ADMIN_DOMAIN: "meinjens.de"
+      INITIAL_ADMIN_PW: "mehlmirmal"
+      DB_FLAVOR: "mysql"
+      DB_USER: "mehl"
+      DB_PW: "mehl"
+      DB_HOST: "db"
+      DB_NAME: "mehl"
+    volumes:
+      - ./mailu:/app/mailu
+      - ./migrations:/app/migrations
+      - ./static:/app/mailu/ui/static
+      - ./start.py:/start.py
+    command: "sleep 365d"
+    healthcheck:
+      disable: true
+
+  db: 
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+    ports:
+      - 3306:3306
+
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - 6379:6379
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: mariadb
+    ports:
+      - 8080:80

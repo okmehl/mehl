@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% trans %}Manager list{% endtrans %}
+{% endblock %}
+
+{% block subtitle %}
+{{ domain.name }}
+{% endblock %}
+
+{% block content %}
+{% call macros.box(padding="0", action_url=url_for('.manager_create', domain_name=domain.name), action_text="Add manager") %}
+{% call macros.table() %}
+<tr>
+  <th>{% trans %}Email{% endtrans %}</th>
+  <th>{% trans %}Actions{% endtrans %}</th>
+</tr>
+{% for manager in domain.managers %}
+<tr>
+  <td>{{ manager }}</td>
+  <td>
+    <a href="{{ url_for('.manager_delete', domain_name=domain.name, user_email=manager.email) }}" class="btn btn-primary btn-sm">
+      <i class="fa fa-trash"></i>
+      {% trans %}Delete{% endtrans %}
+    </a>
+  </td>
+</tr>
+{% endfor %}
+{% endcall %}
+{% endcall %}
+{% endblock %}

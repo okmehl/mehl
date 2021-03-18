@@ -1,0 +1,17 @@
+if /^\s*Received:.*Authenticated sender.*\(Postmehl\)/
+#/^Received: from .*? \([\w-.]* \[.*?\]\)\s+\(Authenticated sender: (.+)\)\s+by.+\(Postmehl\) with (E?SMTPS?A?) id ([A-F0-9]+).+;.*?/
+/^Received: from .*? \([\w-.]* \[.*?\]\)(.*|\n.*)\(Authenticated sender: (.+)\)\s+by.+\(Postmehl\) with (.*)/
+  REPLACE Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with $3
+endif
+if /^\s*Received: from.* \(.*imap.*mehl_net.*\).*\(Postmehl\)/
+/^Received: from.* (.*|\n.*)\((.+) (.+)\)\s+by (.+) \(Postmehl\) with (.*)/
+  REPLACE Received: from sieve (sieve $3) by $4 (Postmehl) with $5
+endif
+if /^\s*Received: from.* \(.*rspamd.*mehl_net.*\).*\(Postmehl\)/
+/^Received: from.* (.*|\n.*)\((.+) (.+)\)\s+by (.+) \(Postmehl\) with (.*)/
+  REPLACE Received: from rspamd (rspamd $3) by $4 (Postmehl) with $5
+endif
+/^\s*X-Enigmail/        IGNORE
+/^\s*X-Mailer/          IGNORE
+/^\s*X-Originating-IP/  IGNORE
+/^\s*X-Forward/         IGNORE

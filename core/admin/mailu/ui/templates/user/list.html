@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% trans %}User list{% endtrans %}
+{% endblock %}
+
+{% block content %}
+{% call macros.box(padding="0", title=domain.name, action_url=url_for('.user_create', domain_name=domain.name), action_text="Add user") %}
+{% call macros.table() %}
+<tr>
+  <th>{% trans %}Email{% endtrans %}</th>
+  <th>{% trans %}Features{% endtrans %}</th>
+  <th>{% trans %}Quota{% endtrans %}</th>
+  <th>{% trans %}Comment{% endtrans %}</th>
+  <th>{% trans %}Created{% endtrans %}</th>
+  <th>{% trans %}Last edit{% endtrans %}</th>
+  <th width="20%">{% trans %}User settings{% endtrans %}</th>
+  <th width="10%">{% trans %}Actions{% endtrans %}</th>
+</tr>
+{% for user in domain.users %}
+<tr {% if not user.enabled %}class="warning"{% endif %}>
+  <td>{{ user }}</td>
+  <td>
+    {% if user.enable_imap %}<span class="label label-info">imap</span>{% endif %}
+    {% if user.enable_pop %}<span class="label label-info">pop3</span>{% endif %}
+  </td>
+  <td>{{ user.quota_bytes_used | filesizeformat }} / {{ (user.quota_bytes | filesizeformat) if user.quota_bytes else '∞' }}</td>
+  <td>{{ user.comment or '-' }}</td>
+  <td>{{ user.created_at }}</td>
+  <td>{{ user.updated_at or '' }}</td>
+  <td>
+    <a href="{{ url_for('.user_settings', user_email=user.email) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-wrench"></i>
+      {% trans %}Settings{% endtrans %}
+    </a>
+    <a href="{{ url_for('.user_reply', user_email=user.email) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-plane"></i>
+      {% trans %}Auto-reply{% endtrans %}
+    </a>
+    <a href="{{ url_for('.fetch_list', user_email=user.email) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-download"></i>
+      {% trans %}Fetched accounts{% endtrans %}
+    </a>
+  </td>
+  <td>
+    <a href="{{ url_for('.user_edit', user_email=user.email) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-pencil-alt"></i>
+      {% trans %}Edit{% endtrans %}
+    </a>
+    <a href="{{ url_for('.user_delete', user_email=user.email) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-trash"></i>
+      {% trans %}Delete{% endtrans %}
+    </a>
+  </td>
+</tr>
+{% endfor %}
+{% endcall %}
+{% endcall %}
+{% endblock %}

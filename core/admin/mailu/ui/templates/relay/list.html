@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% trans %}Relayed domain list{% endtrans %}
+{% endblock %}
+
+{% block content %}
+{% call macros.box(padding="0", action_url=url_for('.relay_create') if current_user.global_admin else '', action_text="New relayed domain") %}
+{% call macros.table() %}
+<tr>
+  <th>{% trans %}Domain name{% endtrans %}</th>
+  <th>{% trans %}Remote host{% endtrans %}</th>
+  <th>{% trans %}Comment{% endtrans %}</th>
+  <th>{% trans %}Created{% endtrans %}</th>
+  <th>{% trans %}Last edit{% endtrans %}</th>
+  <th width="10%">{% trans %}Actions{% endtrans %}</th>
+</tr>
+{% for relay in relays %}
+<tr>
+  <td>{{ relay.name }}</td>
+  <td>{{ relay.smtp or '-' }}</td>
+  <td>{{ relay.comment or '' }}</td>
+  <td>{{ relay.created_at }}</td>
+  <td>{{ relay.updated_at or '' }}</td>
+  <td>
+    <a href="{{ url_for('.relay_edit', relay_name=relay.name) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-pencil-alt"></i>
+      {% trans %}Edit{% endtrans %}
+    </a>
+    <a href="{{ url_for('.relay_delete', relay_name=relay.name) }}" class="btn btn-primary btn-sm">
+      <i class="fas fa-trash"></i>
+      {% trans %}Delete{% endtrans %}
+    </a>
+  </td>
+</tr>
+{% endfor %}
+{% endcall %}
+{% endcall %}
+{% endblock %}

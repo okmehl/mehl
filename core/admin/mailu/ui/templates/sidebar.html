@@ -1,0 +1,182 @@
+<div class="sidebar">
+  {% if current_user.is_authenticated %}
+  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="image">
+      <img src="https://via.placeholder.com/160x160" class="img-circle elevation-2" alt="User Image">
+    </div>
+    <div class="info">
+      <a href="#" class="d-block">{{ current_user }}</a>
+    </div>
+  </div>
+  {% endif %}
+
+  <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+    {% if current_user.is_authenticated %}
+    <li class="nav-header">{% trans %}My account{% endtrans %}</li>
+
+    <li class="nav-item">
+      <a href="{{ url_for('.user_settings') }}" class="nav-link">
+        <i class="nav-icon fas fa-wrench"></i>
+        <p>
+          {% trans %}Settings{% endtrans %}
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{{ url_for('.user_password') }}" class="nav-link">
+        <i class="nav-icon fas fa-lock"></i>
+        <p>
+          {% trans %}Update password{% endtrans %}
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{{ url_for('.user_reply') }}" class="nav-link">
+        <i class="nav-icon fas fa-plane"></i>
+        <p>
+          {% trans %}Auto-reply{% endtrans %}
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{{ url_for('.fetch_list') }}" class="nav-link">
+        <i class="nav-icon fas fa-download"></i>
+        <p>
+          {% trans %}Fetched accounts{% endtrans %}
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{{ url_for('.token_list') }}" class="nav-link">
+        <i class="nav-icon fas fa-ticket-alt"></i>
+        <p>
+          {% trans %}Authentication tokens{% endtrans %}
+        </p>
+      </a>
+    </li>
+
+    {% if current_user.manager_of or current_user.global_admin %}
+    <li class="nav-header">{% trans %}Administration{% endtrans %}</li>
+    {% endif %}
+    {% if current_user.global_admin %}
+    <li class="nav-item">
+      <a href="{{ url_for('.announcement') }}" class="nav-link">
+        <i class="nav-icon fas fa-bullhorn"></i>
+        <p>
+          {% trans %}Announcement{% endtrans %}
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{{ url_for('.admin_list') }}" class="nav-link">
+        <i class="nav-icon fas fa-users"></i>
+        <p>
+          {% trans %}Administrators{% endtrans %}
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{{ url_for('.relay_list') }}" class="nav-link">
+        <i class="nav-icon fas fa-reply-all"></i>
+        <p>
+          {% trans %}Relayed domains{% endtrans %}
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{{ config["WEB_ADMIN"] }}/antispam/" target="_blank" class="nav-link">
+        <i class="nav-icon fas fa-trash-alt"></i>
+        <p>
+          {% trans %}Antispam{% endtrans %}
+        </p>
+      </a>
+    </li>
+    {% endif %}
+    {% if current_user.manager_of or current_user.global_admin %}
+    <li class="nav-item">
+      <a href="{{ url_for('.domain_list') }}" class="nav-link">
+        <i class="nav-icon fas fa-envelope"></i>
+        <p>
+          {% trans %}Mail domains{% endtrans %}
+        </p>
+      </a>
+    </li>
+    {% endif %}
+    {% endif %}
+
+    <li class="nav-header">{% trans %}Go to{% endtrans %}</li>
+    {% if config["WEBMAIL"] != "none" %}
+    <li class="nav-item">
+      <a href="{{ config["WEB_WEBMAIL"] }}" class="nav-link" target="_blank">
+        <i class="nav-icon fas fa-envelope-o"></i>
+        <p>
+          {% trans %}Webmail{% endtrans %}
+        </p>
+      </a>
+    </li>
+    {% endif %}
+    <li class="nav-item">
+      <a href="{{ url_for('.client') }}" class="nav-link">
+        <i class="nav-icon fas fa-laptop"></i>
+        <p>
+          {% trans %}Client setup{% endtrans %}
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{{ config["WEBSITE"] }}" class="nav-link" target="_blank">
+        <i class="nav-icon fas fa-globe"></i>
+        <p>
+          {% trans %}Website{% endtrans %}
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="https://mehl.io/help" class="nav-link" target="_blank">
+        <i class="nav-icon fas fa-life-ring"></i>
+        <p>
+          {% trans %}Help{% endtrans %}
+        </p>
+      </a>
+    </li>
+    {% if config['DOMAIN_REGISTRATION'] %}
+    <li class="nav-item">
+      <a href="{{ url_for('.domain_signup') }}" class="nav-link">
+        <i class="nav-icon fas fa-plus-square"></i>
+        <p>
+          {% trans %}Register a domain{% endtrans %}
+        </p>
+      </a>
+    </li>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+    <li class="nav-item">
+      <a href="{{ url_for('.logout') }}" class="nav-link">
+        <i class="nav-icon fas fa-sign-out-alt"></i>
+        <p>
+          {% trans %}Sign out{% endtrans %}
+        </p>
+      </a>
+    </li>
+    {% else %}
+    <li class="nav-item">
+      <a href="{{ url_for('.login') }}" class="nav-link">
+        <i class="nav-icon fas fa-sign-in-alt"></i>
+        <p>
+          {% trans %}Sign in{% endtrans %}
+        </p>
+      </a>
+    </li>
+    {% if signup_domains %}
+    <li class="nav-item">
+      <a href="{{ url_for('.user_signup') }}" class="nav-link">
+        <i class="nav-icon fas fa-user-plus"></i>
+        <p>
+          {% trans %}Sign up{% endtrans %}
+        </p>
+      </a>
+    </li>
+    {% endif %}
+    {% endif %}
+  </ul>
+</div>
