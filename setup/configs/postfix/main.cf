@@ -66,6 +66,7 @@ milter_default_action = accept
 smtpd_relay_restrictions =      reject_non_fqdn_recipient
                                 reject_unknown_recipient_domain
                                 permit_mynetworks
+                                permit_sasl_authenticated
                                 reject_unauth_destination
 
 
