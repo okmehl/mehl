@@ -1,10 +1,11 @@
 MIT License
 
-Copyright (c) 2016 All Mailu contributors at the date
+Copyright (c) 2016 All Mailu (c) 2021 All Mehl contributors at the date
 
 This software consists of voluntary contributions made by multiple individuals.
 For exact contribution history, see the revision history available at
 https://github.com/Mailu/Mailu
+https://github.com/okmehl/mehl
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

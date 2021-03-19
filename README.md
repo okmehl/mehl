@@ -1,4 +1,4 @@
-<p align="leftr"><img src="docs/assets/logomark.png" alt="Mailu" height="200px"></p>
+<p align="leftr"><img src="docs/assets/logomark.png" alt="Mehl" height="200px"></p>
 
 
 Mehl and Mailu are simple yet full-featured mail server as a set of Docker images.
@@ -29,7 +29,7 @@ Main features include:
 Contributing
 ============
 
-Mailu is free software, open to suggestions and contributions. All
+Mailu and Mehl is free software, open to suggestions and contributions. All
 components are free software and compatible with the MIT license. All
 specific configuration files, Dockerfiles and code are placed under the
 MIT license.

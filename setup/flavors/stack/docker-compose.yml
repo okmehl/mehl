@@ -44,7 +44,6 @@ services:
       driver: {{ log_driver or 'json-file' }}
     volumes:
       - "{{ root }}/certs:/certs"
-      - "{{ root }}/overrides/nginx:/overrides:ro"
     ports:
       - target: 25
         published: 25
@@ -165,7 +164,6 @@ services:
     volumes:
       - "{{ root }}/filter:/var/lib/rspamd"
       - "{{ root }}/dkim:/dkim:ro"
-      - "{{ root }}/overrides/rspamd:/etc/rspamd/override.d:ro"
     deploy:
       replicas: 1
 
@@ -234,33 +232,33 @@ services:
 
 configs:
   sogo_config:
-    file: ./configs/mehl/sogo/sogo.conf
+    file: "{{ root }}/sogo/sogo.conf"
   dovecot_sql_config:
-    file: ./configs/mehl/dovecot/dovecot-sql.conf
+    file: "{{ root }}/dovecot/dovecot-sql.conf"
   dovecot_config:
-    file: ./configs/mehl/dovecot/dovecot.conf
+    file: "{{ root }}/dovecot/dovecot.conf"
   dovecot_report_ham_config:
-    file: ./configs/mehl/dovecot/report-ham.sieve
+    file: "{{ root }}/dovecot/report-ham.sieve"
   dovecot_report_spam_config:
-    file: ./configs/mehl/dovecot/report-spam.sieve
+    file: "{{ root }}/dovecot/report-spam.sieve"
   dovecot_rspamd_pipe_ham_config:
-    file: ./configs/mehl/dovecot/rspamd-pipe-ham
+    file: "{{ root }}/dovecot/rspamd-pipe-ham"
   dovecot_rspamd_pipe_spam_config:
-    file: ./configs/mehl/dovecot/rspamd-pipe-spam
+    file: "{{ root }}/dovecot/rspamd-pipe-spam"
   postfix_main_config:
-    file: ./configs/mehl/postfix/main.cf
+    file: "{{ root }}/postfix/main.cf"
   postfix_master_config:
-    file: ./configs/mehl/postfix/master.cf
+    file: "{{ root }}/postfix/master.cf"
   postfix_mysql_relay_config:
-    file: ./configs/mehl/postfix/mysql_relay_domains.cf
+    file: "{{ root }}/postfix/mysql_relay_domains.cf"
   postfix_mysql_alias_config:
-    file: ./configs/mehl/postfix/mysql_virtual_alias_maps.cf
+    file: "{{ root }}/postfix/mysql_virtual_alias_maps.cf"
   postfix_mysql_domains_config:
-    file: ./configs/mehl/postfix/mysql_virtual_mailbox_domains_maps.cf
+    file: "{{ root }}/postfix/mysql_virtual_mailbox_domains_maps.cf"
   postfix_mysql_mailbox_config:
-    file: ./configs/mehl/postfix/mysql_virtual_mailbox_maps.cf
+    file: "{{ root }}/postfix/mysql_virtual_mailbox_maps.cf"
   postfix_outclean_header_config:
-    file: ./configs/mehl/postfix/outclean_header_filter.cf
+    file: "{{ root }}/postfix/outclean_header_filter.cf"
 
 networks:
   net:

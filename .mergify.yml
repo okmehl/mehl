@@ -14,8 +14,6 @@ pull_request_rules:
           
           bors try
           
-          Note: if this build fails, [read this](http://mailu.io/master/contributors/environment.html#when-bors-try-fails).
-
   - name: 2 approved reviews; trigger bors r+
     conditions:
       - -title~=(WIP|wip)
@@ -27,7 +25,7 @@ pull_request_rules:
 
   - name: Trusted author and 1 approved review; trigger bors r+
     conditions:
-      - author~=^(kaiyou|muhlemmer|mildred|HorayNarea|adi90x|hoellen|ofthesun9|Nebukadneza|micw|lub|Diman0)$
+      - author~=^(meinjens|OKDaG)$
       - -title~=(WIP|wip)
       - -label~=^(status/wip|status/blocked|review/need2)$
       - "#approved-reviews-by>=1"
@@ -35,18 +33,9 @@ pull_request_rules:
       comment:
         message: bors r+
 
-  - name: Backport to 1.8  branch
-    conditions:
-      - base=master
-      - label=type/backport
-    actions:
-      backport:
-        branches:
-          - '1.8'
-
   - name: remove outdated reviews
     conditions:
-      - base~=^(master|1.8)$
+      - base~=^(master)$
     actions:
       dismiss_reviews:
         approved: True
