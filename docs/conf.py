@@ -33,15 +33,11 @@ html_sidebars = {
 # Theme options
 html_context = {
     'display_github': True,
-    'github_user': 'mailu',
-    'github_repo': 'mailu',
+    'github_user': 'mehl',
+    'github_repo': 'mehl',
     'github_version': version,
-    'stable_version': '1.7',
+    'stable_version': '1.0',
     'versions': [
-        ('1.5', '/1.5/'),
-        ('1.6', '/1.6/'),
-        ('1.7', '/1.7/'),
-        ('1.8', '/1.8/'),
         ('master', '/master/')
     ],
     'conf_py_path': '/docs/'
