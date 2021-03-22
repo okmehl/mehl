@@ -14,7 +14,7 @@ DEFAULT_CONFIG = {
     'DOMAIN_REGISTRATION': False,
     'TEMPLATES_AUTO_RELOAD': True,
     # Database settings
-    'DB_FLAVOR': None,
+    'DB_FLAVOR': 'mysql',
     'DB_USER': 'mailu',
     'DB_PW': None,
     'DB_HOST': 'database',

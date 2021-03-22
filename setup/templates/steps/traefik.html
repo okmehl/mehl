@@ -1,0 +1,38 @@
+{% call macros.panel("info", "Step 3 - Traefik configuration") %}
+<p>Configure your gateway to mehl:</p>
+
+<div class="form-group">
+  <div class="form-group">
+    <label>Traefik version</label>
+    <select class="form-control" name="traefik_version" required>
+      <option>v1</option>
+      <option selected>v2</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Traefik host name incl. mail domain</label>
+    <input class="form-control" type="text" name="traefik_hostname" value="" required>
+  </div>
+  <div class="form-group">
+    <label>Traefik network name</label>
+    <input class="form-control" type="text" name="traefik_network" value="traefik_public" required>
+  </div>
+  <div class="form-group">
+    <label>Traefik entrypoint name</label>
+    <input class="form-control" type="text" name="traefik_entrypoint" value="websecure" required>
+  </div>
+  <div class="form-group">
+    <label>Traefik SSL resolver name</label>
+    <input class="form-control" type="text" name="traefik_ssl_resolver" value="leresolver" required>
+  </div>
+  <div class="form-group">
+    <label>Traefik middlewares</label>
+    <input class="form-control" type="text" name="traefik_middlewares" value="">
+  </div>
+  <div class="form-group">
+    <label>Traefik certificate folder, which contains the acme.json</label>
+    <input class="form-control" type="text" name="traefik_cert_folder" value="" required>
+  </div>
+</div>
+
+{% endcall %}
