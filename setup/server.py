@@ -11,13 +11,23 @@ import random
 import ipaddress
 import hashlib
 import time
-from zipfile import ZipFile
+import sys
 
+import logging as log
+from zipfile import ZipFile
+from flask_bootstrap import WebCDN
+
+log.basicConfig(stream=sys.stderr, level=os.environ.get("LOG_LEVEL", "INFO"))
 
 version = os.getenv("this_version", "master")
 static_url_path = "/" + version + "/static"
 app = flask.Flask(__name__, static_url_path=static_url_path)
 flask_bootstrap.Bootstrap(app)
+
+app.extensions['bootstrap']['cdns']['jquery'] = WebCDN(
+    '//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/'
+)
+
 db = redis.StrictRedis(host='redis', port=6379, db=0)
 
 
@@ -102,10 +112,6 @@ def build_app(path):
     def submit():
         data = flask.request.form.copy()
         data['uid'] = str(uuid.uuid4())
-        try:
-            data['dns'] = str(ipaddress.IPv4Network(data['subnet'], strict=False)[-2])
-        except ValueError as err:
-            return "Error while generating files: " + str(err)
         db.set(data['uid'], json.dumps(data))
         return flask.redirect(flask.url_for('.setup', uid=data['uid']))
 
@@ -113,7 +119,7 @@ def build_app(path):
     @root_bp.route("/setup/<uid>", methods=["GET"])
     def setup(uid):
         data = json.loads(db.get(uid))
-        flavor = data.get("flavor", "compose")
+        flavor = data.get("flavor", "swarm")
         rendered = render_flavor(flavor, "setup.html", data)
         return flask.render_template("setup.html", contents=rendered)
 
@@ -121,7 +127,7 @@ def build_app(path):
     @root_bp.route("/file/<uid>/<filepath>", methods=["GET"])
     def file(uid, filepath):
         data = json.loads(db.get(uid))
-        flavor = data.get("flavor", "compose")
+        flavor = data.get("flavor", "swarm")
         return flask.Response(
             render_flavor(flavor, filepath, data),
             mimetype="application/text"
