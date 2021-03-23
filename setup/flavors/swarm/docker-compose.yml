@@ -31,10 +31,10 @@ services:
     deploy:
       replicas: 1
     environment:
-      - MYSQL_ROOT_PASSWORD={{ generated_db_root_password }}
-      - MYSQL_PASSWORD=${DB_PW}
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_USER=${DB_USER}
+      - MYSQL_ROOT_PASSWORD={{ secret(16) }}
+      - MYSQL_PASSWORD={{ db_pw }}
+      - MYSQL_DATABASE=mehl
+      - MYSQL_USER=mehl
       - MYSQL_INITDB_SKIP_TZINFO=1
 
 # Core services
