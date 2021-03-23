@@ -1,20 +1,20 @@
-ARG DISTRO=alpine:3.13
-FROM $DISTRO
-
-COPY requirements.txt /requirements.txt
+FROM python:3.8-slim AS BUILDER
 
 ARG version=master
 ENV VERSION=$version
 
-RUN apk add --no-cache nginx curl python3 \
- && pip3 install -r /requirements.txt \
- && mkdir /run/nginx
-
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY requirements.txt /requirements.txt
 COPY . /docs
 
-RUN mkdir -p /build/$VERSION \
+RUN pip3 install -r /requirements.txt \
+ && mkdir -p /build/$VERSION \
  && sphinx-build -W /docs /build/$VERSION
+
+
+FROM nginx:mainline-alpine
+
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=BUILDER /build /build
 
 EXPOSE 80/tcp
 
