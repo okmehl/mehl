@@ -11,4 +11,4 @@ import "@fortawesome/fontawesome-free/css/all.css";
 
 // AdminLTE
 import 'admin-lte/build/js/AdminLTE';
-import 'admin-lte/build/scss/AdminLTE.scss';
+import 'admin-lte/build/scss/adminlte.scss';
