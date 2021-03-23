@@ -9,7 +9,7 @@ RUN npm install
 COPY ./webpack.config.js ./
 COPY ./assets ./assets
 RUN mkdir static \
- && ./node_modules/.bin/webpack-cli
+ && npm run build
 
 
 # Actual application
