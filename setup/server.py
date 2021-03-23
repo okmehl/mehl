@@ -12,6 +12,8 @@ import ipaddress
 import hashlib
 import time
 import sys
+import secrets
+
 
 import logging as log
 from zipfile import ZipFile
@@ -30,7 +32,6 @@ app.extensions['bootstrap']['cdns']['jquery'] = WebCDN(
 
 db = redis.StrictRedis(host='redis', port=6379, db=0)
 
-
 def render_config(config, template, data):
     return flask.render_template(
         os.path.join(config, template),
@@ -38,6 +39,7 @@ def render_config(config, template, data):
     )
 
 def render_flavor(flavor, template, data):
+    
     return flask.render_template(
         os.path.join(flavor, template),
         **data
@@ -89,6 +91,10 @@ def build_app(path):
         jinja2.FileSystemLoader(os.path.join(path, "flavors"))
     ])
 
+    def generate_password(length):
+        alphabet = string.ascii_letters + string.digits + '-_'
+        return ''.join(secrets.choice(alphabet) for i in range(length))
+
     @prefix_bp.context_processor
     @root_bp.context_processor
     def bp_context(version=version):
@@ -112,6 +118,7 @@ def build_app(path):
     def submit():
         data = flask.request.form.copy()
         data['uid'] = str(uuid.uuid4())
+        data['db_pw'] = generate_password(16)
         db.set(data['uid'], json.dumps(data))
         scheme = flask.request.headers.get('X-Forwarded-Proto', 'http')
         return flask.redirect(flask.url_for('.setup', _external=True, _scheme=scheme,  uid=data['uid']))

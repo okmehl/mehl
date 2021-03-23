@@ -1,5 +1,5 @@
-user = {{ db_user }}
+user = mehl
 password = {{ db_pw }}
-hosts = db
-dbname = {{ db_name }}
+hosts = db.mehl_net
+dbname = mehl
 query = SELECT forward_destination FROM user WHERE email='%s' AND enabled = true
