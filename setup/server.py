@@ -114,7 +114,7 @@ def build_app(path):
         data['uid'] = str(uuid.uuid4())
         db.set(data['uid'], json.dumps(data))
         scheme = flask.request.headers.get('X-Forwarded-Proto', 'http')
-        return flask.redirect(flask.url_for('.setup', _scheme=scheme, uid=data['uid']))
+        return flask.redirect(flask.url_for('.setup', _external=True, _scheme=scheme,  uid=data['uid']))
 
     @prefix_bp.route("/setup/<uid>", methods=["GET"])
     @root_bp.route("/setup/<uid>", methods=["GET"])
