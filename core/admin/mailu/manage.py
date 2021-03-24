@@ -18,26 +18,6 @@ def mailu(cls=flask_cli.FlaskGroup):
     """ Mailu command line
     """
 
-
-@mailu.command()
-@flask_cli.with_appcontext
-def advertise():
-    """ Advertise this server against statistic services.
-    """
-    if os.path.isfile(app.config["INSTANCE_ID_PATH"]):
-        with open(app.config["INSTANCE_ID_PATH"], "r") as handle:
-            instance_id = handle.read()
-    else:
-        instance_id = str(uuid.uuid4())
-        with open(app.config["INSTANCE_ID_PATH"], "w") as handle:
-            handle.write(instance_id)
-    if not app.config["DISABLE_STATISTICS"]:
-        try:
-            socket.gethostbyname(app.config["STATS_ENDPOINT"].format(instance_id))
-        except:
-            pass
-
-
 @mailu.command()
 @click.argument('localpart')
 @click.argument('domain_name')

@@ -6,7 +6,6 @@ import sys
 
 log.basicConfig(stream=sys.stderr, level=os.environ.get("LOG_LEVEL", "INFO"))
 
-os.system("flask mailu advertise")
 os.system("flask db upgrade")
 
 account = os.environ.get("INITIAL_ADMIN_ACCOUNT")
