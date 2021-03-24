@@ -199,6 +199,10 @@ services:
     volumes:
       - "{{ root }}/webmail:/data"
     configs:
+      - source: sogo_boostrap_sql
+        target: /etc/sogo/bootstrap.sql
+      - source: sogo_mysql_config
+        target: /etc/sogo/mysql.conf
       - source: sogo_config
         target: /etc/sogo/sogo.conf
     deploy:
@@ -216,6 +220,10 @@ services:
 configs:
   sogo_config:
     file: "{{ root }}/sogo/sogo.conf"
+  sogo_mysql_config:
+    file: "{{ root }}/sogo/mysql.conf"
+  sogo_boostrap_sql:
+    file: "{{ root }}/sogo/bootstrap.sql"
   dovecot_sql_config:
     file: "{{ root }}/dovecot/dovecot-sql.conf"
   dovecot_config:

@@ -17,17 +17,20 @@ RUN cd /tmp/sogo-* && debuild -b -uc -us && rm /tmp/*-dbg_* /tmp/*-dev_*
 
 FROM $DISTRO
 COPY --from=builder /tmp/*.deb /tmp/
+COPY boostrap.sql /bootstrap.sql
 RUN set -x \
   && apt-get update && apt-get install -y --no-install-recommends \
     dirmngr cron curl \
     gnustep-base-runtime libgnustep-base1.26 libobjc4 \
     libwbxml2-0 libglib2.0-0 liblasso3 libmemcached11 liboath0 libsodium23 libzip4 gnustep-make zip \
-    libmariadb3 libpq5 \
+    libmariadb3 mariadb-client libpq5 \
   && mkdir /usr/share/doc/sogo \
   && touch /usr/share/doc/sogo/empty.sh \    
   && dpkg -i /tmp/*.deb
  
 USER sogo
+
+ENTRYPOINT [ "/bootstrap.sh" ]
 
 CMD /usr/sbin/sogod -WONoDetach YES -WOPidFile /var/run/sogo/sogo.pid -WOPort 0.0.0.0:20000
 
