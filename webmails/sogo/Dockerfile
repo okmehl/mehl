@@ -17,7 +17,7 @@ RUN cd /tmp/sogo-* && debuild -b -uc -us && rm /tmp/*-dbg_* /tmp/*-dev_*
 
 FROM $DISTRO
 COPY --from=builder /tmp/*.deb /tmp/
-COPY boostrap.sql /bootstrap.sql
+COPY bootstrap.sh /bootstrap.sh
 RUN set -x \
   && apt-get update && apt-get install -y --no-install-recommends \
     dirmngr cron curl \

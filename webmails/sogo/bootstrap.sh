@@ -2,6 +2,13 @@
 
 set -e
 
+# check to make sure there is a .sql file specified to import
+if [ ! -f /etc/sogo/mysql.conf ] || [ ! -f /etc/sogo/boostrap.sql ]
+then
+  echo "/etc/sogo/mysql.conf or /etc/sogo/boostrap.sql is not found; exiting"
+  exit 1
+fi
+
 source /etc/sogo/mysql.conf
 
 # check to make sure the db is accessible before importing data
