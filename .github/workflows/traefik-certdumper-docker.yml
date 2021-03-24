@@ -3,6 +3,9 @@ name: traefik-certdumper-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'optional/traefik-certdumper/**'
   push:
     branches: master
     tags:

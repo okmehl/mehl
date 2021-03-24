@@ -3,6 +3,9 @@ name: postfix-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'core/postfix/**'
   push:
     branches: master
     tags:

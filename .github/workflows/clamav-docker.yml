@@ -3,6 +3,9 @@ name: clamav-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'optional/clamav/**'
   push:
     branches: master
     tags:

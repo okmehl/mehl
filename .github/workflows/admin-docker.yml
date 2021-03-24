@@ -3,6 +3,9 @@ name: admin-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'core/admin/**'
   push:
     branches: master
     tags:

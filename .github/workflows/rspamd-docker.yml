@@ -3,6 +3,9 @@ name: rspamd-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'core/rspamd/**'
   push:
     branches: master
     tags:

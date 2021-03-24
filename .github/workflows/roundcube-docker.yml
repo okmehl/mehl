@@ -3,6 +3,9 @@ name: roundcube-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'webmails/roundcube/**'
   push:
     branches: master
     tags:

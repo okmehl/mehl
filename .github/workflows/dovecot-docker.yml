@@ -3,6 +3,9 @@ name: dovecot-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'core/dovecot/**'
   push:
     branches: master
     tags:
