@@ -3,6 +3,9 @@ name: fetchmail-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'optional/fetchmail/**'
   push:
     branches: master
     tags:

@@ -3,6 +3,9 @@ name: setup-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'setup/**'
   push:
     branches: master
     tags:

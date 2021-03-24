@@ -3,6 +3,9 @@ name: nginx-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'core/nginx/**'
   push:
     branches: master
     tags:

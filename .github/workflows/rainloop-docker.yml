@@ -3,6 +3,9 @@ name: rainloop-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'webmails/rainloop/**'
   push:
     branches: master
     tags:

@@ -3,6 +3,9 @@ name: sogo-docker
 on:
   pull_request:
     branches: master
+    paths:
+      -
+        'webmails/sogo/**'
   push:
     branches: master
     tags:
