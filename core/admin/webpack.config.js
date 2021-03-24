@@ -35,23 +35,19 @@ module.exports = {
                 use: ['url-loader']
             },
             {
-                // Exposes jquery for use outside Webpack build
                 test: require.resolve('jquery'),
-                use: [{
-                    loader: 'expose-loader',
-                    options: 'jquery'
-                }, {
-                    loader: 'expose-loader',
-                    options: '$'
-                }]
+                loader: 'expose-loader',
+                options: {
+                  exposes: ['$', 'jquery', 'jQuery'],
+                },
             }
         ]
     },
     plugins: [
-	      new css({
-	          filename: "[name].css",
-	          chunkFilename: "[id].css"
-	      }),
+        new css({
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        }),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
